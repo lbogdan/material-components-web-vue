@@ -24,11 +24,15 @@ exports.cssLoaders = function (options) {
   function generateLoaders (loader, loaderOptions) {
     var loaders = [cssLoader]
     if (loader) {
+      var localOptions = Object.assign({}, loaderOptions, {
+        sourceMap: options.sourceMap
+      })
+      if (loader === 'sass' && typeof loaderOptions === 'undefined') {
+        localOptions.includePaths = [path.join(__dirname, '../node_modules')]
+      }
       loaders.push({
         loader: loader + '-loader',
-        options: Object.assign({}, loaderOptions, {
-          sourceMap: options.sourceMap
-        })
+        options: localOptions
       })
     }
 
